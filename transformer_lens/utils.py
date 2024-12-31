@@ -702,7 +702,7 @@ def test_prompt(
     print_details: bool = True,
     prepend_bos: Optional[bool] = USE_DEFAULT_VALUE,
     top_k: int = 10,
-) -> None:
+) -> List:
     """Test if the Model Can Give the Correct Answer to a Prompt.
 
     Intended for exploratory analysis. Prints out the performance on the answer (rank, logit, prob),
@@ -763,7 +763,7 @@ def test_prompt(
             Top k tokens to print details of (when print_details is set to True).
 
     Returns:
-        None (just prints the results directly).
+        List: logit, prob and rank of top token prediction.  
     """
     answers = [answer] if isinstance(answer, str) else answer
     n_answers = len(answers)
@@ -839,6 +839,13 @@ def test_prompt(
         rprint(f"[b]Ranks of the answer tokens:[/b] {single_answer_ranks}")
     else:
         rprint(f"[b]Ranks of the answer tokens:[/b] {answer_ranks}")
+
+    #top 0th token 
+    logits_rank_0 = logits[0, index-1, sorted_token_positions[0, i]].item():5.2f} 
+    prob_rank_0 = sorted_token_probs[0, i].item():6.2%} 
+    token_rank_0 =  model.to_string(sorted_token_positions[0, i])
+        
+    return [logits_rank_0, prob_rank_0, token_rank_0]
 
 
 def transpose(tensor: Float[torch.Tensor, "... a b"]) -> Float[torch.Tensor, "... b a"]:
