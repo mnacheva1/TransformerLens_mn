@@ -702,7 +702,7 @@ def test_prompt(
     print_details: bool = True,
     prepend_bos: Optional[bool] = USE_DEFAULT_VALUE,
     top_k: int = 10,
-) -> List:
+) -> Union[list, list, list]:
     """Test if the Model Can Give the Correct Answer to a Prompt.
 
     Intended for exploratory analysis. Prints out the performance on the answer (rank, logit, prob),
@@ -763,7 +763,9 @@ def test_prompt(
             Top k tokens to print details of (when print_details is set to True).
 
     Returns:
-        List: logit, prob and rank of top token prediction.  
+        List: logits,
+        List: probs,
+        List: tokens
     """
     answers = [answer] if isinstance(answer, str) else answer
     n_answers = len(answers)
