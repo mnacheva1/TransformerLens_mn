@@ -833,15 +833,16 @@ def test_prompt(
                     ]
                 )
             )
-            for i in range(top_k):
-                out_logits.append(logits[0, index-1, sorted_token_positions[0, i]].item())
-                out_probs.append(sorted_token_probs[0, i].item())
-                out_tokens.append(model.to_string(sorted_token_positions[0, i]))
-                                  
+            for i in range(top_k):                  
                 print('testing: ', 
                     f"Top {i}th token. Logit: {logits[0, index-1, sorted_token_positions[0, i]].item():5.2f} Prob: {sorted_token_probs[0, i].item():6.2%} Token: |{model.to_string(sorted_token_positions[0, i])}|"
                 )
                 
+        for i in range(top_k):
+            out_logits.append(logits[0, index-1, sorted_token_positions[0, i]].item())
+            out_probs.append(sorted_token_probs[0, i].item())
+            out_tokens.append(model.to_string(sorted_token_positions[0, i]))
+            
 
     # If n_answers = 1 then unwrap answer ranks, so printed output matches original version of function
     if not using_multiple_answers:
