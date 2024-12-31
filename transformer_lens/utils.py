@@ -841,8 +841,8 @@ def test_prompt(
         rprint(f"[b]Ranks of the answer tokens:[/b] {answer_ranks}")
 
     #top 0th token 
-    logits_rank_0 = logits[0, index-1, sorted_token_positions[0, i]].item():5.2f} 
-    prob_rank_0 = sorted_token_probs[0, i].item():6.2%} 
+    logits_rank_0 = logits[0, index-1, sorted_token_positions[0, i]].item()
+    prob_rank_0 = sorted_token_probs[0, i].item()
     token_rank_0 =  model.to_string(sorted_token_positions[0, i])
         
     return [logits_rank_0, prob_rank_0, token_rank_0]
