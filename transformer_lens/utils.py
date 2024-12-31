@@ -836,7 +836,7 @@ def test_prompt(
             for i in range(top_k):
                 out_logits.append(logits[0, index-1, sorted_token_positions[0, i]].item())
                 out_probs.append(sorted_token_probs[0, i].item())
-                out_tokens.append(model.to_string(sorted_token_positions[0, i])
+                out_tokens.append(model.to_string(sorted_token_positions[0, i]))
                                   
                 print('testing: ', 
                     f"Top {i}th token. Logit: {logits[0, index-1, sorted_token_positions[0, i]].item():5.2f} Prob: {sorted_token_probs[0, i].item():6.2%} Token: |{model.to_string(sorted_token_positions[0, i])}|"
