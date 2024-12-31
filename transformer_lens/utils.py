@@ -797,6 +797,9 @@ def test_prompt(
     logits = model(tokens)
     probs = logits.softmax(dim=-1)
     answer_ranks = []
+    out_logits = []
+    out_probs=[]
+    out_tokens=[]
 
     for index in range(prompt_length, prompt_length + answer_length):
         # Get answer tokens for this sequence position
@@ -829,9 +832,14 @@ def test_prompt(
                 )
             )
             for i in range(top_k):
-                print(
+                out_logits.append(logits[0, index-1, sorted_token_positions[0, i]].item())
+                out_probs.append(sorted_token_probs[0, i].item())
+                out_tokens.append(model.to_string(sorted_token_positions[0, i])
+                                  
+                print('testing: ', 
                     f"Top {i}th token. Logit: {logits[0, index-1, sorted_token_positions[0, i]].item():5.2f} Prob: {sorted_token_probs[0, i].item():6.2%} Token: |{model.to_string(sorted_token_positions[0, i])}|"
                 )
+                
 
     # If n_answers = 1 then unwrap answer ranks, so printed output matches original version of function
     if not using_multiple_answers:
@@ -839,13 +847,8 @@ def test_prompt(
         rprint(f"[b]Ranks of the answer tokens:[/b] {single_answer_ranks}")
     else:
         rprint(f"[b]Ranks of the answer tokens:[/b] {answer_ranks}")
-
-    #top 0th token 
-    logits_rank_0 = logits[0, index-1, sorted_token_positions[0, i]].item()
-    prob_rank_0 = sorted_token_probs[0, i].item()
-    token_rank_0 =  model.to_string(sorted_token_positions[0, i])
         
-    return [logits_rank_0, prob_rank_0, token_rank_0]
+    return out_logits, out_probs, out_tokens
 
 
 def transpose(tensor: Float[torch.Tensor, "... a b"]) -> Float[torch.Tensor, "... b a"]:
